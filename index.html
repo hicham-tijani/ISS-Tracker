@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ᴛʀᴀᴄᴋ ᴛʜᴇ ɪꜱꜱ</title>
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAACJklEQVR4nO2YTWvUUBSGD9QvFAS1ov0BCoru/QeiO7sWl+78H4Lr/obKBRdN7vuemU4lC10oBKQgKrgRsSgFaYUK0k3kNhWrZGZyZyA5gTxwCYEEnjf369yI9PT0jCVJkkWSKYG9cA330hVIXlRgU8niSHvnvb8sHZUvOhGCk+XthyDgp8iXDdg0OScI7NUKYDUE6/aA1RBJkizWmANVIU6LFbz350jmMSFIPhJL+MgQBD47506IJZKI4URgq2ppVdUlBZ4Q+KDALyV3lHwO4IFzbsFEiCAP4Or/7wK4o8CPCe9lg8HgfKshxsmr6jKB/Ro9l7XWE/PK698F4L40AcmTYewS+EjyG8nr88pr+SFG0iR5nh+vmrAk78XKaxngu7TNrPJatp9dli8IvO2svJalyOPuypM7G2trlxqXV9Xb88oT2A+bXePyBwHIl/PKq+pyK/IHAYCNzsoHhml6Q4HtTsr/AcDNmBBBPkx8qahYXVuluPf+mpJfZ5VfT9MrSn4J5wmSD7MsO2auJybJE9j651kyH41GF8z0xLQvr9Wh3zRyTpgWYkb54rC9Inm2ldWJwHslP5G8W1WS15AvDkuMF8Ph8IxYI+rfEwyGIHkrau8g17MsOyWWUPJp1CYIJKZ+24RTHYFnkSFWxBJ5ZAgCu2KNPCIEgddikbxOCGA7LNFiFefcggKr4+RDuSLWcVUhuiJ/dDiF1SZM2DDmTQ+bnh5pn9++Rs3CW6i9VQAAAABJRU5ErkJggg==">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    
+    <h3 class="title">Where is the International Space Station?</h3>
+
+    <div class="neumorphic-container">
+         <div id="ISSmap"></div>
+      </div>
+
+      <div class="activeText">
+<p class="follow" ><b class="be-active1">Follow ISS </b></p>
+    <label class="switch">
+        <input type="checkbox" id="centerOnISS" checked="true" onclick="activeText1('#c6c6c6')">
+    </label>
+</div>
+
+<div class="activeText">
+<p class="polyline" ><b class="be-active">Remove ISS polyline</b></p>
+    <label class="switch1">
+        <input type="checkbox" id="displayPath" checked="true" onclick="activeText()">
+        <div class="indicator"></div>
+    </label>
+    
+    </div>
+
+
+    <div class="video_container">
+        <div id="blink"></div>
+    <iframe class="video" width="250" height="180" src="https://ustream.tv/embed/17074538" scrolling="no" 
+    allowfullscreen webkitallowfullscreen frameborder="0" style="border: 0 none transparent;"></iframe>
+    </div>
+
+  <a href="https://www.nasa.gov/mission_pages/station/main/index.html">
+    <div class="about_iss">
+    <p class="iss_info"><b>About ISS</b></p>
+ <img class="nasa_logo" src="data:image/png;base64,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">
+    </div>
+</a>
+
+    <script src="js/index.js"></script>
+</body>
+</html>
